@@ -15,27 +15,87 @@
       font-size:14px;
       line-height:1.6;
     }
+    .box {
+      max-width:360px;
+      margin:0 auto;
+      padding:20px 16px;
+      border-radius:8px;
+      border:1px solid #15ff99;
+      box-shadow:0 0 18px rgba(21,255,153,0.25);
+      background:#050806;
+    }
+    .btn {
+      display:inline-block;
+      margin-top:12px;
+      padding:10px 16px;
+      border-radius:6px;
+      border:1px solid #15ff99;
+      background:#111b17;
+      color:#b8ffe6;
+      text-decoration:none;
+      font-size:14px;
+    }
+    .btn-secondary {
+      border-color:#3c4a44;
+      background:#050806;
+      color:#9cffdd;
+      margin-top:8px;
+    }
+    .url {
+      margin-top:10px;
+      padding:8px 10px;
+      border-radius:4px;
+      background:#020504;
+      font-size:12px;
+      word-break:break-all;
+      color:#b8ffe6;
+    }
   </style>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       // 🔥 복사할 링크 (사전예약 랜딩)
-      const copyUrl = "https://supercandi.figma.site/";
-
+      const copyUrl   = "https://supercandi.figma.site/";
       // 🔥 복사 후 돌아갈 페이지 (엔드페이지)
       const returnUrl = "https://supercandi.figma.site/end";
 
+      const fallbackBox   = document.getElementById("fallback");
+      const urlSpan       = document.getElementById("share-url");
+      const statusText    = document.getElementById("status-text");
+
       function backToEndPage() {
-        // history.back이 가능한 상황이면 이전페이지로
+        // 가능하면 이전 페이지(/end)로 history 사용해서 복귀
         if (window.history.length > 1) {
           window.history.back();
         } else {
-          // 아니면 그냥 end 페이지로 이동
           window.location.href = returnUrl;
         }
       }
 
-      // 클립보드 복사 실행
+      function showFallback() {
+        // 수동 복사 안내 UI 표시
+        urlSpan.textContent = copyUrl;
+        fallbackBox.style.display = "block";
+        statusText.textContent = "자동 복사가 잘 안 되는 브라우저입니다.";
+      }
+
+      // 수동 복사 버튼에서 호출
+      window.manualCopy = function () {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(copyUrl)
+            .then(() => {
+              alert("사전예약 링크가 복사되었습니다!\nSNS에 붙여넣어 공유해 주세요!");
+              backToEndPage();
+            })
+            .catch(() => {
+              alert("그래도 복사가 안 되면,\n아래 링크를 길게 눌러 직접 복사해 주세요.");
+            });
+        } else {
+          alert("아래 링크를 길게 눌러 직접 복사해 주세요.");
+        }
+      };
+
+      // 🔥 페이지 진입 시 1회 자동 복사 시도
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(copyUrl)
           .then(() => {
@@ -43,23 +103,31 @@
             backToEndPage();
           })
           .catch(() => {
-            alert(
-              "자동 복사에 실패했습니다 🥲\n\n아래 링크를 직접 복사해 주세요:\n" +
-              copyUrl
-            );
-            backToEndPage();
+            // 자동 복사 실패 → 수동 복사 UI 노출
+            showFallback();
           });
       } else {
-        alert(
-          "이 브라우저에서는 자동 복사가 지원되지 않습니다.\n\n아래 링크를 직접 복사해 주세요:\n" +
-          copyUrl
-        );
-        backToEndPage();
+        // 아예 clipboard API를 지원하지 않는 경우
+        showFallback();
       }
     });
   </script>
 </head>
 <body>
-  공유 링크를 복사하는 중입니다...
+  <div class="box">
+    <div id="status-text">공유 링크를 복사하는 중입니다...</div>
+
+    <!-- 자동 복사 실패 시 보이는 영역 -->
+    <div id="fallback" style="display:none;">
+      <div class="url" id="share-url"></div>
+      <a href="javascript:manualCopy()" class="btn">
+        다시 한 번 복사 시도하기 🔗
+      </a>
+      <br>
+      <a href="https://supercandi.figma.site/end" class="btn btn-secondary">
+        엔드페이지로 돌아가기
+      </a>
+    </div>
+  </div>
 </body>
 </html>
