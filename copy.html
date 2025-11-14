@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>링크 복사 중...</title>
+  <title>공유 링크 복사 중...</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <style>
     body {
@@ -12,28 +12,46 @@
       color:#e6fff3;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       text-align:center;
+      font-size:14px;
     }
   </style>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const targetUrl = "https://supercandi.figma.site/"; // 🔹 여기 사전예약 랜딩 URL 넣으세요
+      // 🔹 여기 엔드페이지(사전예약 완료 페이지) URL 넣기
+      const targetUrl = "https://supercandi.figma.site/";
+
+      function goBackToPrev() {
+        // 가능한 경우 이전 페이지(엔드페이지)로 돌아가기
+        if (window.history.length > 1) {
+          window.history.back();
+        } else {
+          // 혹시 히스토리가 없으면 그냥 해당 URL로 이동
+          window.location.href = targetUrl;
+        }
+      }
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(targetUrl).then(function () {
           alert("공유 링크가 복사되었습니다!\n인스타 / X / 페북에 붙여넣어 주세요.");
-          window.location.href = targetUrl; // 복사 후 랜딩페이지로 이동
+          goBackToPrev();
         }).catch(function () {
-          alert("링크: " + targetUrl + "\n복사가 안 될 경우, 위 주소를 직접 복사해 주세요.");
-          window.location.href = targetUrl;
+          alert(
+            "자동 복사에 실패했습니다.\n\n아래 링크를 직접 복사해 주세요:\n" +
+            targetUrl
+          );
+          goBackToPrev();
         });
       } else {
-        alert("링크: " + targetUrl + "\n복사가 안 될 경우, 위 주소를 직접 복사해 주세요.");
-        window.location.href = targetUrl;
+        alert(
+          "자동 복사를 지원하지 않는 브라우저입니다.\n\n아래 링크를 직접 복사해 주세요:\n" +
+          targetUrl
+        );
+        goBackToPrev();
       }
     });
   </script>
 </head>
 <body>
-  링크를 복사하는 중입니다...
+  공유 링크를 복사하는 중입니다...
 </body>
 </html>
