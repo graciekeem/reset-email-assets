@@ -1,17 +1,39 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<title>링크 복사</title>
-<script>
-  const url = "https://supercandi.figma.site/";
-  navigator.clipboard.writeText(url).then(()=>{
-    alert("링크가 복사되었습니다!\nSNS에 붙여넣어 주세요.");
-    window.location.href = url;
-  })
-</script>
+  <meta charset="utf-8">
+  <title>링크 복사 중...</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <style>
+    body {
+      margin:0;
+      padding:40px 16px;
+      background:#0a0d0a;
+      color:#e6fff3;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      text-align:center;
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const targetUrl = "https://supercandi.figma.site/"; // 🔹 여기 사전예약 랜딩 URL 넣으세요
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(targetUrl).then(function () {
+          alert("공유 링크가 복사되었습니다!\n인스타 / X / 페북에 붙여넣어 주세요.");
+          window.location.href = targetUrl; // 복사 후 랜딩페이지로 이동
+        }).catch(function () {
+          alert("링크: " + targetUrl + "\n복사가 안 될 경우, 위 주소를 직접 복사해 주세요.");
+          window.location.href = targetUrl;
+        });
+      } else {
+        alert("링크: " + targetUrl + "\n복사가 안 될 경우, 위 주소를 직접 복사해 주세요.");
+        window.location.href = targetUrl;
+      }
+    });
+  </script>
 </head>
-<body style="background:#0a0d0a; color:#e6fff3;">
-  자동 복사 중...
+<body>
+  링크를 복사하는 중입니다...
 </body>
 </html>
