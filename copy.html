@@ -13,40 +13,48 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       text-align:center;
       font-size:14px;
+      line-height:1.6;
     }
   </style>
+
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // 🔹 여기 엔드페이지(사전예약 완료 페이지) URL 넣기
-      const targetUrl = "https://supercandi.figma.site/";
+      // 🔥 복사할 링크 (사전예약 랜딩)
+      const copyUrl = "https://supercandi.figma.site/";
 
-      function goBackToPrev() {
-        // 가능한 경우 이전 페이지(엔드페이지)로 돌아가기
+      // 🔥 복사 후 돌아갈 페이지 (엔드페이지)
+      const returnUrl = "https://supercandi.figma.site/end";
+
+      function backToEndPage() {
+        // history.back이 가능한 상황이면 이전페이지로
         if (window.history.length > 1) {
           window.history.back();
         } else {
-          // 혹시 히스토리가 없으면 그냥 해당 URL로 이동
-          window.location.href = targetUrl;
+          // 아니면 그냥 end 페이지로 이동
+          window.location.href = returnUrl;
         }
       }
 
+      // 클립보드 복사 실행
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(targetUrl).then(function () {
-          alert("공유 링크가 복사되었습니다!\n인스타 / X / 페북에 붙여넣어 주세요.");
-          goBackToPrev();
-        }).catch(function () {
-          alert(
-            "자동 복사에 실패했습니다.\n\n아래 링크를 직접 복사해 주세요:\n" +
-            targetUrl
-          );
-          goBackToPrev();
-        });
+        navigator.clipboard.writeText(copyUrl)
+          .then(() => {
+            alert("사전예약 링크가 복사되었습니다!\nSNS에 붙여넣어 공유해 주세요!");
+            backToEndPage();
+          })
+          .catch(() => {
+            alert(
+              "자동 복사에 실패했습니다 🥲\n\n아래 링크를 직접 복사해 주세요:\n" +
+              copyUrl
+            );
+            backToEndPage();
+          });
       } else {
         alert(
-          "자동 복사를 지원하지 않는 브라우저입니다.\n\n아래 링크를 직접 복사해 주세요:\n" +
-          targetUrl
+          "이 브라우저에서는 자동 복사가 지원되지 않습니다.\n\n아래 링크를 직접 복사해 주세요:\n" +
+          copyUrl
         );
-        goBackToPrev();
+        backToEndPage();
       }
     });
   </script>
