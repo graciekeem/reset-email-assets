@@ -8,12 +8,19 @@
   <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 
   <script>
+    // 페이지 로드될 때는 "초기화만"
     document.addEventListener("DOMContentLoaded", function () {
-
-      // 🔥 성혜님 카카오 JavaScript 키 넣어야 함!!
       Kakao.init("6868d985672a40852ff3c8484de18400");
+      console.log("Kakao SDK initialized? ", Kakao.isInitialized());
+    });
 
-      // 🔥 카카오톡 공유 실행
+    // 👉 이 함수는 "사용자 클릭"으로만 호출
+    function shareToKakao() {
+      if (!Kakao.isInitialized()) {
+        alert("카카오 SDK 초기화에 실패했습니다. 잠시 후 다시 시도해 주세요.");
+        return;
+      }
+
       Kakao.Link.sendDefault({
         objectType: 'feed',
         content: {
@@ -35,7 +42,7 @@
           }
         ]
       });
-    });
+    }
   </script>
 
 </head>
@@ -43,8 +50,23 @@
   background:#0a0d0a;
   color:#e6fff3;
   text-align:center;
-  padding:50px 20px;
+  padding:40px 20px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 ">
-  <p>카카오톡 공유 준비 중…</p>
+  <p style="margin-bottom:16px;">카카오톡으로 공유하려면 아래 버튼을 눌러 주세요.</p>
+  <button
+    onclick="shareToKakao()"
+    style="
+      padding:10px 18px;
+      border-radius:8px;
+      border:1px solid #fee500;
+      background:#181600;
+      color:#fee500;
+      font-size:14px;
+      cursor:pointer;
+    "
+  >
+    카카오톡으로 공유하기
+  </button>
 </body>
 </html>
