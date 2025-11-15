@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>카카오톡 공유하기</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      // 🔥 성혜님 카카오 JavaScript 키 넣어야 함!!
+      Kakao.init("6868d985672a40852ff3c8484de18400");
+
+      // 🔥 카카오톡 공유 실행
+      Kakao.Link.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: '여고생과 리셋중 — 사전예약 GO!',
+          description: '이세계 전송 포털이 열렸습니다. 지금 바로 입장하세요.',
+          imageUrl: 'https://raw.githubusercontent.com/graciekeem/reset-email-assets/main/kakao.png',
+          link: {
+            mobileWebUrl: 'https://supercandi.figma.site/',
+            webUrl: 'https://supercandi.figma.site/'
+          }
+        },
+        buttons: [
+          {
+            title: '사전예약 하러 가기',
+            link: {
+              mobileWebUrl: 'https://supercandi.figma.site/',
+              webUrl: 'https://supercandi.figma.site/'
+            }
+          }
+        ]
+      });
+    });
+  </script>
+
+</head>
+<body style="
+  background:#0a0d0a;
+  color:#e6fff3;
+  text-align:center;
+  padding:50px 20px;
+">
+  <p>카카오톡 공유 준비 중…</p>
+</body>
+</html>
