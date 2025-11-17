@@ -2,41 +2,92 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>나와 어울리는 이세계 스킨 뽑기</title>
+  <title>나와 어울리는 이세계 스킨 뽑기 | 여고생과 리셋중</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Neo둥근모 폰트 (엔드페이지랑 통일) -->
   <style>
+    @font-face {
+      font-family: 'NeoDunggeunmo';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.3/NeoDunggeunmo.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Pretendard", sans-serif;
-      background: #050816;
-      color: #fff;
+      font-family: 'NeoDunggeunmo', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: #050806;
+      color: #e6fff3;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 24px;
     }
-    .wrapper {
+
+    .frame {
       width: 100%;
-      max-width: 400px;
-      text-align: center;
+      max-width: 420px;
+      border: 1px solid #15ff99;
+      box-shadow: 0 0 24px rgba(21,255,153,0.25);
+      background: #0a0d0a;
     }
-    h1 {
-      font-size: 20px;
-      line-height: 1.4;
+
+    .header-bar {
+      padding: 16px 20px;
+      background: #0f1310;
+      border-bottom: 1px solid #15ff99;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+    .header-left {
+      letter-spacing: 0.08em;
+      color: #15ff99;
+    }
+    .header-right {
+      color: #7af7c8;
+    }
+
+    .inner {
+      padding: 20px 20px 22px;
+      text-align: left;
+    }
+
+    .tag {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: #7af7c8;
+      margin-bottom: 6px;
+    }
+
+    .title {
+      font-size: 18px;
+      line-height: 1.5;
+      color: #b8ffe6;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #9cffdd;
       margin-bottom: 16px;
     }
+
     .card {
       width: 100%;
       aspect-ratio: 3 / 4;
-      border-radius: 16px;
+      border-radius: 12px;
       overflow: hidden;
-      border: 2px solid #7c3aed;
+      border: 2px solid #15ff99;
       background: #111827;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
     .card img {
       width: 100%;
@@ -44,79 +95,154 @@
       object-fit: cover;
       display: block;
     }
-    button {
+
+    .skin-meta {
+      margin-bottom: 14px;
+    }
+    .skin-name {
+      font-size: 14px;
+      color: #e6fff3;
+      margin-bottom: 4px;
+    }
+    .skin-log {
+      font-size: 12px;
+      color: #7af7c8;
+      line-height: 1.6;
+    }
+
+    .btn-area {
+      margin-top: 6px;
+    }
+    #start-btn {
       width: 100%;
       padding: 12px 16px;
       border-radius: 999px;
-      border: none;
-      font-size: 16px;
-      font-weight: 600;
+      border: 1px solid #15ff99;
+      font-size: 14px;
       cursor: pointer;
-      background: linear-gradient(90deg, #7c3aed, #ec4899);
-      color: #fff;
+      background: linear-gradient(90deg, #15ff99, #7af7c8);
+      color: #050806;
+      box-shadow: 0 0 12px rgba(21,255,153,0.45);
     }
-    button:disabled {
+    #start-btn:disabled {
       opacity: 0.6;
       cursor: default;
+      box-shadow: none;
     }
+
     .hint {
-      font-size: 12px;
-      margin-top: 8px;
-      opacity: 0.8;
+      font-size: 11px;
+      margin-top: 10px;
+      color: #9cffdd;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .frame {
+        max-width: 100%;
+      }
+      .inner {
+        padding: 16px 16px 20px;
+      }
+      .title {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <h1>이세계의 나는 어떤 모습…?</h1>
-    <div class="card">
-      <img id="skin-image" src="character00.png" alt="스킨 미리보기">
+  <div class="frame">
+    <!-- 상단 시스템 헤더 (엔드페이지랑 톤 통일) -->
+    <div class="header-bar">
+      <div class="header-left">[ SYSTEM // YGSR ] SKIN MATCH</div>
+      <div class="header-right">MODULE v1.0 · ONLINE</div>
     </div>
-    <button id="start-btn">리셋 돌리기</button>
-    <p class="hint">결과 나오면 화면 캡쳐해서 저장해 주세요 📸</p>
+
+    <div class="inner">
+      <div class="tag">[ SKIN // ROULETTE ]</div>
+      <div class="title">오늘의 이세계 스킨을 스캔합니다.</div>
+      <p class="subtitle">
+        버튼을 누르면 스킨 데이터가 랜덤으로 리셋됩니다.<br>
+        멈춘 순간이, 지금 플레이어의 기본 프로필입니다.
+      </p>
+
+      <!-- 스킨 카드 -->
+      <div class="card">
+        <img id="skin-image" src="character00.png" alt="스킨 미리보기">
+      </div>
+
+      <!-- 스킨 이름 + 로그 -->
+      <div class="skin-meta">
+        <div class="skin-name" id="skin-name">[ SKIN IDLE ] 아직 리셋 전입니다.</div>
+        <div class="skin-log" id="skin-log">
+          ▶ START 버튼을 눌러 오늘의 스킨 프로필을 스캔하세요.
+        </div>
+      </div>
+
+      <!-- 버튼 -->
+      <div class="btn-area">
+        <button id="start-btn">▶ 스킨 룰렛 가동</button>
+      </div>
+
+      <!-- 캡처 안내 -->
+      <p class="hint">
+        결과가 확정되면 화면을 캡처해 보관해 주세요.<br>
+        (모바일: 전원 버튼 + 볼륨 버튼)
+      </p>
+    </div>
   </div>
 
   <script>
-    // 스킨 이미지 리스트 (여기만 실제 경로로 수정)
+    // 스킨 리스트: 파일명 + 이름 (이름은 자유롭게 수정 가능)
     const skins = [
-      "character00.png",
-      "character01.png",
-      "character02.png",
-      "character03.png",
-      "character04.png",
-      "character05.png"
+      { src: "character00.png", name: "기본 교복 스킨" },
+      { src: "character01.png", name: "전투 모드 스킨" },
+      { src: "character02.png", name: "천사 코스튬 스킨" },
+      { src: "character03.png", name: "악마 코스튬 스킨" },
+      { src: "character04.png", name: "사막 전사 스킨" },
+      { src: "character05.png", name: "비밀 아카이브 스킨" }
     ];
+    // TODO: 실제 스킨 이름에 맞게 위 name 값만 수정해도 됨
 
     const img = document.getElementById("skin-image");
     const btn = document.getElementById("start-btn");
+    const nameEl = document.getElementById("skin-name");
+    const logEl = document.getElementById("skin-log");
 
     let intervalId = null;
 
     btn.addEventListener("click", () => {
-      // 이미 돌리고 있으면 또 못 누르게
-      if (intervalId) return;
+      if (intervalId) return; // 이미 돌리는 중이면 무시
 
       btn.disabled = true;
-      btn.textContent = "리셋 중… ✨";
+      btn.textContent = "리셋 중…";
+      nameEl.textContent = "[ SCAN ] 스킨 데이터 스캔 중…";
+      logEl.textContent = "룰렛 회전 중… 현재 프로필은 아직 잠금 해제 전입니다.";
 
       const startTime = Date.now();
-      const duration = 3000; // 3초 동안 돌리기
-      const changeSpeed = 20; // 0.02초마다 이미지 변경
+      const duration = 3000;   // 3초 동안 돌리기
+      const changeSpeed = 40;  // 0.04초마다 이미지 변경
 
       intervalId = setInterval(() => {
         const randomIndex = Math.floor(Math.random() * skins.length);
-        img.src = skins[randomIndex];
+        const current = skins[randomIndex];
+        img.src = current.src;
+        nameEl.textContent = `[ CANDIDATE ] ${current.name}`;
 
         const elapsed = Date.now() - startTime;
         if (elapsed >= duration) {
           clearInterval(intervalId);
           intervalId = null;
 
-          // 마지막으로 한 번 더 랜덤 고정 (완전히 랜덤 느낌 주려고)
+          // 최종 확정 한 번 더
           const finalIndex = Math.floor(Math.random() * skins.length);
-          img.src = skins[finalIndex];
+          const finalSkin = skins[finalIndex];
+          img.src = finalSkin.src;
+          nameEl.textContent = `[ LOCKED ] ${finalSkin.name}`;
+          logEl.textContent = "프로필 잠금 완료. 이 이미지가 오늘의 기본 스킨입니다.";
 
-          btn.textContent = "다시 돌리기";
+          btn.textContent = "다시 리셋하기";
           btn.disabled = false;
         }
       }, changeSpeed);
