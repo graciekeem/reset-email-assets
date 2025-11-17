@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>나와 어울리는 이세계 스킨 뽑기</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Pretendard", sans-serif;
+      background: #050816;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .wrapper {
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 20px;
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }
+    .card {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid #7c3aed;
+      background: #111827;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    button {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(90deg, #7c3aed, #ec4899);
+      color: #fff;
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+    .hint {
+      font-size: 12px;
+      margin-top: 8px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>이세계의 나는 어떤 모습…?</h1>
+    <div class="card">
+      <img id="skin-image" src="character00.png" alt="스킨 미리보기">
+    </div>
+    <button id="start-btn">리셋 돌리기</button>
+    <p class="hint">결과 나오면 화면 캡쳐해서 저장해 주세요 📸</p>
+  </div>
+
+  <script>
+    // 스킨 이미지 리스트 (여기만 실제 경로로 수정)
+    const skins = [
+      "character00.png",
+      "character01.png",
+      "character02.png",
+      "character03.png",
+      "character04.png",
+      "character05.png"
+    ];
+
+    const img = document.getElementById("skin-image");
+    const btn = document.getElementById("start-btn");
+
+    let intervalId = null;
+
+    btn.addEventListener("click", () => {
+      // 이미 돌리고 있으면 또 못 누르게
+      if (intervalId) return;
+
+      btn.disabled = true;
+      btn.textContent = "리셋 중… ✨";
+
+      const startTime = Date.now();
+      const duration = 3000; // 3초 동안 돌리기
+      const changeSpeed = 80; // 0.08초마다 이미지 변경
+
+      intervalId = setInterval(() => {
+        const randomIndex = Math.floor(Math.random() * skins.length);
+        img.src = skins[randomIndex];
+
+        const elapsed = Date.now() - startTime;
+        if (elapsed >= duration) {
+          clearInterval(intervalId);
+          intervalId = null;
+
+          // 마지막으로 한 번 더 랜덤 고정 (완전히 랜덤 느낌 주려고)
+          const finalIndex = Math.floor(Math.random() * skins.length);
+          img.src = skins[finalIndex];
+
+          btn.textContent = "다시 돌리기";
+          btn.disabled = false;
+        }
+      }, changeSpeed);
+    });
+  </script>
+</body>
+</html>
