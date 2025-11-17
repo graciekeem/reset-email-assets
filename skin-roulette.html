@@ -5,7 +5,10 @@
   <title>나와 어울리는 이세계 스킨 뽑기 | 여고생과 리셋중</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Neo둥근모 폰트 (엔드페이지랑 통일) -->
+  <!-- 🟢 Favicon 추가 -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <!-- Neo둥근모 폰트 -->
   <style>
     @font-face {
       font-family: 'NeoDunggeunmo';
@@ -26,6 +29,7 @@
       justify-content: center;
       padding: 24px;
     }
+
 
     .frame {
       width: 100%;
@@ -75,6 +79,7 @@
       font-size: 13px;
       color: #9cffdd;
       margin-bottom: 16px;
+      line-height: 1.6;
     }
 
     .card {
@@ -93,7 +98,6 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
     }
 
     .skin-meta {
@@ -112,17 +116,32 @@
 
     .btn-area {
       margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
-    #start-btn {
+
+    /* 버튼 폰트 Neo둥근모 강제 */
+    button,
+    #start-btn,
+    #download-btn {
+      font-family: 'NeoDunggeunmo', sans-serif !important;
+    }
+
+    #start-btn,
+    #download-btn {
       width: 100%;
       padding: 12px 16px;
       border-radius: 999px;
       border: 1px solid #15ff99;
       font-size: 14px;
       cursor: pointer;
+      box-shadow: 0 0 12px rgba(21,255,153,0.45);
+    }
+
+    #start-btn {
       background: linear-gradient(90deg, #15ff99, #7af7c8);
       color: #050806;
-      box-shadow: 0 0 12px rgba(21,255,153,0.45);
     }
     #start-btn:disabled {
       opacity: 0.6;
@@ -130,12 +149,51 @@
       box-shadow: none;
     }
 
+    #download-btn {
+      background: #0f1310;
+      color: #b8ffe6;
+      box-shadow: 0 0 10px rgba(21,255,153,0.3);
+    }
+    #download-btn:disabled {
+      opacity: 0.4;
+      cursor: default;
+      box-shadow: none;
+    }
+
     .hint {
-      font-size: 11px;
-      margin-top: 10px;
+      font-size: 12px;
+      margin-top: 14px;
       color: #9cffdd;
-      line-height: 1.6;
+      line-height: 1.7;
       text-align: center;
+    }
+    .hint-strong {
+      color: #b8ffe6;
+    }
+
+    /* 이전 로그 버튼 */
+    .back-share-area {
+      margin-top: 16px;
+      text-align: center;
+    }
+    .back-share-btn {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid #15ff99;
+      background: #0f1310;
+      color: #b8ffe6;
+      font-size: 13px;
+      text-decoration: none;
+      box-shadow: 0 0 10px rgba(21,255,153,0.35);
+    }
+    .back-share-btn:hover {
+      background: #111b17;
+    }
+
+    /* 캔버스는 화면에 안 보이게 숨김 */
+    #share-canvas {
+      display: none;
     }
 
     @media (max-width: 480px) {
@@ -151,9 +209,11 @@
     }
   </style>
 </head>
+
 <body>
   <div class="frame">
-    <!-- 상단 시스템 헤더 (엔드페이지랑 톤 통일) -->
+
+    <!-- 상단 시스템 헤더 -->
     <div class="header-bar">
       <div class="header-left">[ SYSTEM // YGSR ] SKIN MATCH</div>
       <div class="header-right">MODULE v1.0 · ONLINE</div>
@@ -161,7 +221,9 @@
 
     <div class="inner">
       <div class="tag">[ SKIN // ROULETTE ]</div>
+
       <div class="title">오늘의 이세계 스킨을 스캔합니다.</div>
+
       <p class="subtitle">
         버튼을 누르면 스킨 데이터가 랜덤으로 리셋됩니다.<br>
         멈춘 순간이, 지금 플레이어의 기본 프로필입니다.
@@ -172,80 +234,182 @@
         <img id="skin-image" src="character00.png" alt="스킨 미리보기">
       </div>
 
-      <!-- 스킨 이름 + 로그 -->
+      <!-- 스킨 이름 / 로그 -->
       <div class="skin-meta">
         <div class="skin-name" id="skin-name">[ SKIN IDLE ] 아직 리셋 전입니다.</div>
         <div class="skin-log" id="skin-log">
-          ▶ START 버튼을 눌러 오늘의 스킨 프로필을 스캔하세요.
+          ▶ S T A R T 버튼을 눌러 오늘의 스킨 프로필을 스캔하세요.
         </div>
       </div>
 
-      <!-- 버튼 -->
+      <!-- 버튼 영역 -->
       <div class="btn-area">
-        <button id="start-btn">▶ S T A R T</button>
+        <button id="start-btn" style="font-family:'NeoDunggeunmo',sans-serif;">
+          ▶ S T A R T
+        </button>
+        <button id="download-btn" disabled>📁 공유용 이미지 저장</button>
       </div>
 
-      <!-- 캡처 안내 -->
+      <!-- SNS 공유 유도 -->
       <p class="hint">
-        결과가 확정되면 화면을 캡처해 보관해 주세요.<br>
+        ▶ 프로필 저장 완료 시,<br>
+        이 스킨 로그는 SNS 업로드 시 더 안정적으로 보관됩니다.<br>
+        <span class="hint-strong">* 스크린샷 또는 공유용 이미지를 저장해 인스타 / X / 페북에 투하해 주세요.</span>
       </p>
+
+      <!-- 이전 로그로 돌아가기 버튼 -->
+      <div class="back-share-area">
+        <a href="https://supercandi.figma.site/end" class="back-share-btn">
+          ◀ 이전 로그로 돌아가 공유하기
+        </a>
+      </div>
     </div>
   </div>
 
-  <script>
-    // 스킨 리스트: 파일명 + 이름 (이름은 자유롭게 수정 가능)
-    const skins = [
-      { src: "character00.png", name: "기본 교복 스킨" },
-      { src: "character01.png", name: "전투 모드 스킨" },
-      { src: "character02.png", name: "천사 코스튬 스킨" },
-      { src: "character03.png", name: "악마 코스튬 스킨" },
-      { src: "character04.png", name: "사막 전사 스킨" },
-      { src: "character05.png", name: "비밀 아카이브 스킨" }
-    ];
-    // TODO: 실제 스킨 이름에 맞게 위 name 값만 수정해도 됨
+  <!-- 공유용 이미지 생성용 캔버스 (스토리 규격 1080x1920) -->
+  <canvas id="share-canvas" width="1080" height="1920"></canvas>
 
-    const img = document.getElementById("skin-image");
-    const btn = document.getElementById("start-btn");
-    const nameEl = document.getElementById("skin-name");
-    const logEl = document.getElementById("skin-log");
+<script>
+  // 스킨 리스트
+  const skins = [
+    { src: "character00.png", name: "기본 교복 스킨" },
+    { src: "character01.png", name: "전투 모드 스킨" },
+    { src: "character02.png", name: "천사 코스튬 스킨" },
+    { src: "character03.png", name: "악마 코스튬 스킨" },
+    { src: "character04.png", name: "사막 전사 스킨" },
+    { src: "character05.png", name: "비밀 아카이브 스킨" }
+  ];
 
-    let intervalId = null;
+  const img = document.getElementById("skin-image");
+  const btn = document.getElementById("start-btn");
+  const downloadBtn = document.getElementById("download-btn");
+  const nameEl = document.getElementById("skin-name");
+  const logEl = document.getElementById("skin-log");
+  const canvas = document.getElementById("share-canvas");
+  const ctx = canvas.getContext("2d");
 
-    btn.addEventListener("click", () => {
-      if (intervalId) return; // 이미 돌리는 중이면 무시
+  let intervalId = null;
+  let lockedSkin = null; // 최종 확정된 스킨 정보 저장
 
-      btn.disabled = true;
-      btn.textContent = "리셋 중…";
-      nameEl.textContent = "[ SCAN ] 스킨 데이터 스캔 중…";
-      logEl.textContent = "룰렛 회전 중… 현재 프로필은 아직 잠금 해제 전입니다.";
+  btn.addEventListener("click", () => {
+    if (intervalId) return; // 이미 돌리는 중이면 무시
 
-      const startTime = Date.now();
-      const duration = 1500;   // 1.5초 동안 돌리기
-      const changeSpeed = 20;  // 0.02초마다 이미지 변경
+    btn.disabled = true;
+    downloadBtn.disabled = true;
+    btn.textContent = "R E S E T T I N G...";
+    nameEl.textContent = "[ SCAN ] 스킨 데이터 스캔 중…";
+    logEl.textContent = "룰렛 회전 중… 현재 프로필은 아직 잠금 해제 전입니다.";
 
-      intervalId = setInterval(() => {
-        const randomIndex = Math.floor(Math.random() * skins.length);
-        const current = skins[randomIndex];
-        img.src = current.src;
-        nameEl.textContent = `[ CANDIDATE ] ${current.name}`;
+    const startTime = Date.now();
+    const duration = 1500;   // 1.5초
+    const changeSpeed = 200; // 0.2초 간격
 
-        const elapsed = Date.now() - startTime;
-        if (elapsed >= duration) {
-          clearInterval(intervalId);
-          intervalId = null;
+    intervalId = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * skins.length);
+      const current = skins[randomIndex];
+      img.src = current.src;
+      nameEl.textContent = `[ CANDIDATE ] ${current.name}`;
 
-          // 최종 확정 한 번 더
-          const finalIndex = Math.floor(Math.random() * skins.length);
-          const finalSkin = skins[finalIndex];
-          img.src = finalSkin.src;
-          nameEl.textContent = `[ LOCKED ] ${finalSkin.name}`;
-          logEl.textContent = "프로필 잠금 완료. 이 이미지가 오늘의 기본 스킨입니다.";
+      const elapsed = Date.now() - startTime;
+      if (elapsed >= duration) {
+        clearInterval(intervalId);
+        intervalId = null;
 
-          btn.textContent = "R E S T A R T";
-          btn.disabled = false;
-        }
-      }, changeSpeed);
-    });
-  </script>
+        // 최종 확정
+        const finalIndex = Math.floor(Math.random() * skins.length);
+        const finalSkin = skins[finalIndex];
+        lockedSkin = finalSkin;
+
+        img.src = finalSkin.src;
+        nameEl.textContent = `[ LOCKED ] ${finalSkin.name}`;
+        logEl.textContent = "프로필 잠금 완료. 이 이미지가 오늘의 기본 스킨입니다.";
+
+        btn.textContent = "R E S T A R T";
+        btn.disabled = false;
+        downloadBtn.disabled = false;
+      }
+    }, changeSpeed);
+  });
+
+  // 공유용 이미지 생성 + 다운로드 (스토리 비율 1080x1920)
+  downloadBtn.addEventListener("click", () => {
+    if (!lockedSkin) {
+      alert("먼저 스킨 룰렛을 돌려서 오늘의 스킨을 확정해 주세요.");
+      return;
+    }
+
+    const image = new Image();
+    image.src = lockedSkin.src; // 같은 origin에 이미지 두면 CORS 문제 없음
+
+    image.onload = () => {
+      const w = canvas.width;   // 1080
+      const h = canvas.height;  // 1920
+
+      // 배경
+      ctx.fillStyle = "#050806";
+      ctx.fillRect(0, 0, w, h);
+
+      // 프레임
+      ctx.strokeStyle = "#15ff99";
+      ctx.lineWidth = 4;
+      ctx.strokeRect(32, 32, w - 64, h - 64);
+
+      // 상단 텍스트
+      ctx.fillStyle = "#15ff99";
+      ctx.font = "22px NeoDunggeunmo, monospace";
+      ctx.textAlign = "left";
+      ctx.fillText("[ SYSTEM // YGSR ] SKIN MATCH", 64, 96);
+
+      ctx.fillStyle = "#7af7c8";
+      ctx.font = "16px NeoDunggeunmo, monospace";
+      ctx.fillText("MODULE v1.0 · PROFILE CAPTURE", 64, 128);
+
+      // 카드 영역 (중앙)
+      const cardWidth = w * 0.72;
+      const cardHeight = cardWidth * 4 / 3; // 3:4 비율
+      const cardX = (w - cardWidth) / 2;
+      const cardY = 260;
+
+      ctx.fillStyle = "#111827";
+      ctx.fillRect(cardX - 4, cardY - 4, cardWidth + 8, cardHeight + 8);
+      ctx.strokeStyle = "#15ff99";
+      ctx.lineWidth = 3;
+      ctx.strokeRect(cardX - 4, cardY - 4, cardWidth + 8, cardHeight + 8);
+
+      ctx.drawImage(image, cardX, cardY, cardWidth, cardHeight);
+
+      // 스킨 이름
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#e6fff3";
+      ctx.font = "22px NeoDunggeunmo, monospace";
+      const textY = cardY + cardHeight + 80;
+      ctx.fillText(lockedSkin.name, w / 2, textY);
+
+      // 서브 텍스트
+      ctx.fillStyle = "#7af7c8";
+      ctx.font = "16px NeoDunggeunmo, monospace";
+      ctx.fillText("오늘자 스킨 프로필 잠금 완료.", w / 2, textY + 40);
+      ctx.fillText("이 이미지를 SNS에 업로드해 플레이어 인증하세요.", w / 2, textY + 72);
+
+      // 하단 라벨
+      ctx.fillStyle = "#9cffdd";
+      ctx.font = "14px NeoDunggeunmo, monospace";
+      ctx.fillText("여고생과 리셋중 · SUPER CANDI", w / 2, h - 80);
+
+      // 다운로드
+      const link = document.createElement("a");
+      link.download = `ygsr_skin_${Date.now()}.png`;
+      link.href = canvas.toDataURL("image/png");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
+    image.onerror = () => {
+      alert("이미지를 불러오는 중 오류가 발생했습니다. 파일 경로를 다시 확인해 주세요.");
+    };
+  });
+</script>
+
 </body>
 </html>
