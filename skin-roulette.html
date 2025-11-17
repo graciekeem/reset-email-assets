@@ -221,8 +221,8 @@
       logEl.textContent = "룰렛 회전 중… 현재 프로필은 아직 잠금 해제 전입니다.";
 
       const startTime = Date.now();
-      const duration = 3000;   // 3초 동안 돌리기
-      const changeSpeed = 40;  // 0.04초마다 이미지 변경
+      const duration = 1500;   // 1.5초 동안 돌리기
+      const changeSpeed = 20;  // 0.02초마다 이미지 변경
 
       intervalId = setInterval(() => {
         const randomIndex = Math.floor(Math.random() * skins.length);
